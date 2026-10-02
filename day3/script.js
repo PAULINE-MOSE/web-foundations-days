@@ -9,8 +9,8 @@ let notes = [
 
 
 // 1. Search notes
-function searchNotes(word) {
-  const searchWord = word.toLowerCase();
+function searchNotes(notes, word) {
+  const searchWord = word.trim().toLowerCase();
 
   return notes.filter((note) =>
     note.text.toLowerCase().includes(searchWord)
@@ -18,16 +18,16 @@ function searchNotes(word) {
 }
 
 // Test searchNotes - normal case
-console.log(searchNotes("day"));
+console.log(searchNotes(notes, "day"));
 // Expected: [{ id: 2, text: "Finish the Day 3 assignment", category: "study" }]
 
 // Test searchNotes - no results
-console.log(searchNotes("python"));
+console.log(searchNotes(notes, "python"));
 // Expected: []
 
 
 // 2. Find the longest note
-function longestNote() {
+function longestNote(notes) {
   if (notes.length === 0) {
     return null;
   }
@@ -44,21 +44,16 @@ function longestNote() {
 }
 
 // Test longestNote - normal case
-console.log(longestNote());
+console.log(longestNote(notes));
 // Expected: { id: 3, text: "Email the project report to Grace", category: "work" }
 
 // Test longestNote - empty array
-const originalNotes = notes;
-notes = [];
-
-console.log(longestNote());
+console.log(longestNote([]));
 // Expected: null
-
-notes = originalNotes;
 
 
 // 3. Count notes by category
-function countByCategory() {
+function countByCategory(notes) {
   const counts = {};
 
   for (const note of notes) {
@@ -73,22 +68,17 @@ function countByCategory() {
 }
 
 // Test countByCategory - normal case
-console.log(countByCategory());
+console.log(countByCategory(notes));
 // Expected: { personal: 2, study: 2, work: 1 }
 
 // Test countByCategory - empty array
-const savedNotesForCount = notes;
-notes = [];
-
-console.log(countByCategory());
+console.log(countByCategory([]));
 // Expected: {}
-
-notes = savedNotesForCount;
 
 
 // 4. Get notes summary
-function getSummary() {
-  const counts = countByCategory();
+function getSummary(notes) {
+  const counts = countByCategory(notes);
   const total = notes.length;
 
   const noteWord = total === 1 ? "note" : "notes";
@@ -97,21 +87,16 @@ function getSummary() {
 }
 
 // Test getSummary - normal case
-console.log(getSummary());
+console.log(getSummary(notes));
 // Expected: "5 notes: 2 personal, 1 work, 2 study."
 
 // Test getSummary - empty array
-const savedNotesForSummary = notes;
-notes = [];
-
-console.log(getSummary());
+console.log(getSummary([]));
 // Expected: "0 notes: 0 personal, 0 work, 0 study."
-
-notes = savedNotesForSummary;
 
 
 // 5. Check for duplicate notes
-function isDuplicate(text) {
+function isDuplicate(notes, text) {
   const normalizedText = text.trim().toLowerCase();
 
   return notes.some(
@@ -120,16 +105,16 @@ function isDuplicate(text) {
 }
 
 // Test isDuplicate - duplicate with different case and spaces
-console.log(isDuplicate("  BUY MILK AND BREAD  "));
+console.log(isDuplicate(notes, "  BUY MILK AND BREAD  "));
 // Expected: true
 
 // Test isDuplicate - text does not exist
-console.log(isDuplicate("Buy eggs"));
+console.log(isDuplicate(notes, "Buy eggs"));
 // Expected: false
 
 
 // 6. Add a note
-function addNote(text, category) {
+function addNote(notes, text, category) {
   const trimmedText = text.trim();
   const validCategories = ["personal", "work", "study"];
 
@@ -138,7 +123,7 @@ function addNote(text, category) {
     return false;
   }
 
-  if (isDuplicate(trimmedText)) {
+  if (isDuplicate(notes, trimmedText)) {
     console.log("Note is a duplicate.");
     return false;
   }
@@ -163,21 +148,23 @@ function addNote(text, category) {
 }
 
 // Test addNote - normal case
-console.log(addNote("Prepare presentation slides", "work"));
+console.log(addNote(notes, "Prepare presentation slides", "work"));
 // Expected: true
 
 // Test addNote - duplicate
-console.log(addNote("  PREPARE PRESENTATION SLIDES  ", "work"));
+console.log(
+  addNote(notes, "  PREPARE PRESENTATION SLIDES  ", "work")
+);
 // Expected: "Note is a duplicate." then false
 
 // Test addNote - invalid category
-console.log(addNote("Learn CSS Grid", "coding"));
+console.log(addNote(notes, "Learn CSS Grid", "coding"));
 // Expected: "Invalid category." then false
 
 // Test addNote - empty text
-console.log(addNote("   ", "study"));
+console.log(addNote(notes, "   ", "study"));
 // Expected: "Note must be between 1 and 200 characters." then false
 
 // Test addNote - text over 200 characters
-console.log(addNote("a".repeat(201), "personal"));
+console.log(addNote(notes, "a".repeat(201), "personal"));
 // Expected: "Note must be between 1 and 200 characters." then false
