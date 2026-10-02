@@ -44,6 +44,12 @@ nav a {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Active page indicator */
+nav a[aria-current="page"] {
+  border-bottom: 2px solid white;
+}
+
+/* Navigation hover effect */
 nav a:hover {
   background-color: white;
   color: #243447;
