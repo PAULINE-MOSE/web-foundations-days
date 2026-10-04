@@ -1,0 +1,135 @@
+/* Theme variables */
+:root {
+  --background-color: #f4f6f8;
+  --text-color: #222;
+  --card-color: #ffffff;
+  --border-color: #aaa;
+  --button-color: #243447;
+  --button-text-color: #ffffff;
+  --warning-color: #d97706;
+  --over-color: #dc2626;
+}
+
+/* Dark theme */
+body.dark {
+  --background-color: #1f2937;
+  --text-color: #f9fafb;
+  --card-color: #374151;
+  --border-color: #6b7280;
+  --button-color: #111827;
+  --button-text-color: #ffffff;
+  --warning-color: #f59e0b;
+  --over-color: #f87171;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Main content */
+main {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: var(--card-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin-top: 0;
+  text-align: center;
+}
+
+/* Note input */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font: inherit;
+  resize: vertical;
+}
+
+textarea:focus {
+  outline: 2px solid var(--button-color);
+  outline-offset: 2px;
+}
+
+/* Counters */
+#char-count,
+#word-count {
+  margin: 8px 0;
+}
+
+.warning {
+  color: var(--warning-color);
+}
+
+.over {
+  color: var(--over-color);
+  font-weight: bold;
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--button-color);
+  color: var(--button-text-color);
+  cursor: pointer;
+  font: inherit;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--button-color);
+  outline-offset: 3px;
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+  main {
+    margin: 20px 12px;
+    padding: 20px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+}
