@@ -3,45 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QuickNotes - Day 5 Users</title>
+    <title>QuickNotes - User Directory</title>
     <script src="users.js" defer></script>
   </head>
 
   <body>
-    <header>
-      <h1>QuickNotes Users</h1>
-      <p>Load and filter users from an API.</p>
-
-      <nav aria-label="Main navigation">
-        <a href="index.html" aria-current="page">Users</a>
-      </nav>
-    </header>
-
     <main>
-      <section>
-        <h2>Load Users</h2>
+      <h1>User Directory</h1>
 
-        <button id="load-users" type="button">Load Users</button>
+      <button id="load-users" type="button">Load Users</button>
 
-        <label for="filter-input">Filter users</label>
-        <input
-          type="text"
-          id="filter-input"
-          placeholder="Search by name..."
-        />
+      <label for="filter-input">Filter users by name:</label>
+      <input
+        type="text"
+        id="filter-input"
+        placeholder="Enter a name..."
+      />
 
-        <p id="status" aria-live="polite">Click "Load Users" to begin.</p>
-      </section>
+      <p id="status">Click "Load Users" to fetch users.</p>
 
-      <section>
-        <h2>User List</h2>
-
-        <ul id="users-list"></ul>
-      </section>
+      <ul id="users-list"></ul>
     </main>
-
-    <footer>
-      <p>&copy; 2026 QuickNotes. Built during Web Foundations.</p>
-    </footer>
   </body>
 </html>

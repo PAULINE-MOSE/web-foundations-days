@@ -1,25 +1,52 @@
-const loadUsersButton = document.querySelector("#load-users");
-const filterInput = document.querySelector("#filter-input");
-const status = document.querySelector("#status");
-const usersList = document.querySelector("#users-list");
-
 let users = [];
 
-// Render users to the page
-function renderUsers(list) {
-  usersList.textContent = "";
+const loadButton = document.getElementById("load-users");
+const filterInput = document.getElementById("filter-input");
+const status = document.getElementById("status");
+const usersList = document.getElementById("users-list");
 
-  if (list.length === 0) {
+async function loadUsers() {
+  loadButton.disabled = true;
+  status.textContent = "Loading users...";
+  usersList.innerHTML = "";
+
+  try {
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/users"
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    users = await response.json();
+
+    renderUsers(users);
+
+    status.textContent = `${users.length} users loaded successfully.`;
+  } catch (error) {
+    users = [];
+    status.textContent = "Failed to load users. Please try again.";
+    console.error("Error loading users:", error);
+  } finally {
+    loadButton.disabled = false;
+  }
+}
+
+function renderUsers(userArray) {
+  usersList.innerHTML = "";
+
+  if (userArray.length === 0) {
     const emptyMessage = document.createElement("li");
-    emptyMessage.textContent = "No users match your filter.";
+    emptyMessage.textContent = "No users found.";
     usersList.appendChild(emptyMessage);
     return;
   }
 
-  list.forEach((user) => {
+  userArray.forEach((user) => {
     const listItem = document.createElement("li");
 
-    const name = document.createElement("h3");
+    const name = document.createElement("strong");
     name.textContent = user.name;
 
     const email = document.createElement("p");
@@ -40,54 +67,22 @@ function renderUsers(list) {
   });
 }
 
-// Load users from the API
-async function loadUsers() {
-  loadUsersButton.disabled = true;
-  status.textContent = "Loading users...";
-
-  try {
-    const response = await fetch(
-      "https://jsonplaceholder.typicode.com/users"
-    );
-
-    if (!response.ok) {
-      throw new Error(`Request failed with status ${response.status}`);
-    }
-
-    users = await response.json();
-
-    renderUsers(users);
-
-    status.textContent = `Successfully loaded ${users.length} users.`;
-  } catch (error) {
-    users = [];
-    usersList.textContent = "";
-
-    status.textContent =
-      "Unable to load users. Please try again later.";
-
-    console.error("Error loading users:", error);
-  } finally {
-    loadUsersButton.disabled = false;
-  }
-}
-
-// Load users when the button is clicked
-loadUsersButton.addEventListener("click", loadUsers);
-
-// Filter users without making another API request
-filterInput.addEventListener("input", () => {
-  const searchText = filterInput.value.trim().toLowerCase();
+function filterUsers() {
+  const searchTerm = filterInput.value.trim().toLowerCase();
 
   const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchText)
+    user.name.toLowerCase().includes(searchTerm)
   );
 
   renderUsers(filteredUsers);
 
-  if (searchText !== "" && filteredUsers.length === 0) {
-    status.textContent = "No users match your filter.";
-  } else if (searchText === "" && users.length > 0) {
-    status.textContent = `Successfully loaded ${users.length} users.`;
+  if (searchTerm === "") {
+    status.textContent = `${users.length} users loaded successfully.`;
+  } else {
+    status.textContent = `${filteredUsers.length} user(s) found.`;
   }
-});
+}
+
+loadButton.addEventListener("click", loadUsers);
+
+filterInput.addEventListener("input", filterUsers);
